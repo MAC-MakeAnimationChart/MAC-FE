@@ -31,6 +31,7 @@ export default function Sidebar({ chartType, onChartTypeChange, chartConfig, onC
               onChange={e => onChartConfigChange({ ...chartConfig, title: e.target.value })}
             />
           </div>
+
           <div className="st-form-group">
             <label className="st-form-label">X축 기준열(레이블)</label>
             <select
@@ -41,6 +42,7 @@ export default function Sidebar({ chartType, onChartTypeChange, chartConfig, onC
               {headers.map(h => <option key={h} value={h}>{h}</option>)}
             </select>
           </div>
+
           <div className="st-form-group">
             <label className="st-form-label">Y축 지표열(데이터 수치)</label>
             <select
@@ -51,6 +53,37 @@ export default function Sidebar({ chartType, onChartTypeChange, chartConfig, onC
               {headers.map(h => <option key={h} value={h}>{h}</option>)}
             </select>
           </div>
+
+          <div className="st-form-group">
+            <label className="st-form-label">막대 정렬</label>
+            <select
+              className="st-form-select"
+              value={chartConfig.sortOrder || 'none'}
+              onChange={e => onChartConfigChange({ ...chartConfig, sortOrder: e.target.value })}
+            >
+              <option value="none">원본 순서</option>
+              <option value="asc">오름차순</option>
+              <option value="desc">내림차순</option>
+            </select>
+          </div>
+
+          <div className="st-form-group">
+            <label className="st-form-label">평균선 표시</label>
+            <select
+              className="st-form-select"
+              value={chartConfig.showAverageLine ? 'on' : 'off'}
+              onChange={e =>
+                onChartConfigChange({
+                  ...chartConfig,
+                  showAverageLine: e.target.value === 'on',
+                })
+              }
+            >
+              <option value="on">표시</option>
+              <option value="off">숨김</option>
+            </select>
+          </div>
+
           <div className="st-form-group">
             <label className="st-form-label">차트 테마 컬러팩</label>
             <select
