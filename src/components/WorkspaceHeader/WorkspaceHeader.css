@@ -1,0 +1,75 @@
+.workspace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  box-sizing: border-box;
+}
+
+.workspace-header__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin: 0;
+}
+
+.workspace-header__controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.workspace-header__search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.workspace-header__search-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.workspace-header__search-input {
+  width: 240px;
+  padding: 10px 14px 10px 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background-color: var(--color-surface);
+  transition: all 0.2s;
+}
+
+.workspace-header__search-input:focus {
+  border-color: #4F46E5;
+  background-color: #ffffff;
+}
+
+/* 사라졌던 우측 생성 버튼 스타일 강제 선언 */
+.workspace-header__create-button {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background-color: #4F46E5 !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.workspace-header__create-button:hover {
+  background-color: #3b32c4 !important;
+}
+
+.workspace-header__btn-icon {
+  font-size: 16px;
+}
