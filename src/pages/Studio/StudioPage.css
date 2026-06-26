@@ -318,15 +318,14 @@
 }
 
 .st-canvas-zone {
-    padding: 1.5rem;
     flex: 1;
-    min-height: 220px;
+    min-height: 280px;
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    flex-direction: column;
     background-color: #F8FAFC;
     margin: 1rem;
     border-radius: 0.5rem;
+    overflow: hidden;
 }
 
 .st-mock-chart-graphic {
