@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Sidebar.css';
 
-const Sidebar = () => {
+const Sidebar = ({ nav, setNavSelect }) => {
   return (
     <aside className="sidebar">
       {/* 서비스 로고 로고타입 */}
@@ -12,13 +12,22 @@ const Sidebar = () => {
       <nav className="sidebar__nav">
         <p className="sidebar__section-title">메뉴</p>
         <ul className="sidebar__menu-list">
-          <li className="sidebar__menu-item sidebar__menu-item--active">
+          <li
+            className={`sidebar__menu-item ${nav === 'myProject' && "sidebar__menu-item--active"}`}
+            onClick={() => setNavSelect('myProject')}
+          >
             <span className="sidebar__menu-icon">📁</span> 내 프로젝트
           </li>
-          <li className="sidebar__menu-item">
+          <li
+            className={`sidebar__menu-item ${nav === 'templates' && "sidebar__menu-item--active"}`}
+            onClick={() => setNavSelect('templates')}
+          >
             <span className="sidebar__menu-icon">🗂️</span> 템플릿
           </li>
-          <li className="sidebar__menu-item">
+          <li
+            className={`sidebar__menu-item ${nav === 'chartGallery' && "sidebar__menu-item--active"}`}
+            onClick={() => setNavSelect('chartGallery')}
+          >
             <span className="sidebar__menu-icon">📊</span> 차트 갤러리
           </li>
         </ul>
@@ -26,7 +35,10 @@ const Sidebar = () => {
         {/* 사용자 환경설정 메뉴 그룹 */}
         <p className="sidebar__section-title">설정</p>
         <ul className="sidebar__menu-list">
-          <li className="sidebar__menu-item">
+          <li
+            className={`sidebar__menu-item ${nav === 'userSetting' && "sidebar__menu-item--active"}`}
+            onClick={() => setNavSelect('userSetting')}
+          >
             <span className="sidebar__menu-icon">⚙️</span> 계정 설정
           </li>
         </ul>
