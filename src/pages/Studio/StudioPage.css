@@ -375,3 +375,38 @@
         height: 0;
     }
 }
+
+.st-th-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.st-delete-btn {
+  border: none;
+  background: #fee2e2;
+  color: #dc2626;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.st-delete-btn:hover {
+  background: #fecaca;
+}
+
+.st-row-delete-header {
+  width: 80px;
+  text-align: center;
+}
+
+.st-row-delete-cell {
+  text-align: center;
+}
+
+.st-delete-btn--row {
+  padding: 4px 8px;
+}
