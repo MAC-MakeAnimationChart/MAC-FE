@@ -1,4 +1,8 @@
+import { useState } from 'react';
+
 export default function DataGrid({ headers, rows, onHeadersChange, onRowsChange }) {
+  const [transposed, setTransposed] = useState(false);
+
   function addRow() {
     onRowsChange([...rows, Array(headers.length).fill('')]);
   }
@@ -14,6 +18,7 @@ export default function DataGrid({ headers, rows, onHeadersChange, onRowsChange 
     const newRows = headers.map((h, colIdx) => [h, ...rows.map(row => row[colIdx] ?? '')]);
     onHeadersChange(newHeaders);
     onRowsChange(newRows);
+    setTransposed(prev => !prev);
   }
 
   function handleCellChange(rowIdx, colIdx, value) {
@@ -30,7 +35,9 @@ export default function DataGrid({ headers, rows, onHeadersChange, onRowsChange 
       <div className="st-grid-toolbar">
         <h4 className="st-grid-title">⚙️ 데이터 정제 및 스마트 타입 검증기</h4>
         <div className="st-grid-actions">
-          <button className="st-grid-btn accent" onClick={transposeData}>🔄 행/열 바꾸기</button>
+          <button className="st-grid-btn accent" onClick={transposeData}>
+            {transposed ? '↩ 원래대로' : '🔄 행/열 바꾸기'}
+          </button>
           <button className="st-grid-btn" onClick={addRow}>➕ 행 추가</button>
           <button className="st-grid-btn" onClick={addColumn}>➕ 열 추가</button>
         </div>
