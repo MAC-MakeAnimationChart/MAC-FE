@@ -22,7 +22,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { gridToObjects, numericValue, numericKeys } from '../utils';
-import './trend.css';
+import './ScatterChart.css';
 
 // 테마별 점 색상
 const THEME_COLORS = {

@@ -21,7 +21,7 @@ import {
   ReferenceLine,
 } from 'recharts';
 import { gridToObjects, numericValue, numericKeys } from '../utils';
-import './trend.css';
+import './LineChart.css';
 
 // 테마별 색상 팔레트 (여러 라인이 있을 때 순서대로 적용)
 const THEME_COLORS = {

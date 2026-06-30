@@ -20,7 +20,7 @@ import {
   ReferenceLine,
 } from 'recharts';
 import { gridToObjects, numericValue, numericKeys } from '../utils';
-import './trend.css';
+import './AreaChart.css';
 
 // 테마별 색상 팔레트 [선 색상, 영역 채우기 색상(투명도 포함)]
 const THEME_COLORS = {

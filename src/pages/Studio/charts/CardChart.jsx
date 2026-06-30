@@ -8,7 +8,7 @@
  *     1,000   |    2,000    |   300   ← 각 열 합계가 카드 하나씩
  */
 import { numericKeys, numericValue } from '../utils';
-import './trend.css';
+import './CardChart.css';
 
 // 테마별 강조 색상
 const THEME_ACCENT = {

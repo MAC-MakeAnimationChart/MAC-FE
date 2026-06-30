@@ -1,0 +1,26 @@
+/* AreaChart 전용 스타일 */
+
+.siyun-chart-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    color: #94A3B8;
+}
+
+.siyun-chart-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1E293B;
+    text-align: center;
+    margin: 0 0 8px;
+}
+
+.siyun-line-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
