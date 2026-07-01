@@ -1,26 +1,18 @@
-/**
- * 기본 막대 차트 (Bar Chart)
- * - X축에 카테고리, Y축에 수치를 놓고 막대로 비교하는 가장 기본 차트
- * - 사이드바에서 선택한 X축/Y축 열 기준으로 자동 렌더링됨
- *
- * props:
- *   headers    - 열 이름 배열          예: ['날짜', '매출', '비고']
- *   rows       - 실제 데이터 2차원 배열  예: [['2026-01', '100', '정상'], ...]
- *   chartConfig - 사이드바 설정값       예: { xKey: '날짜', yKey: '매출', title: '...' }
- */
 import {
-  BarChart as RechartsBar, // recharts의 BarChart를 이름 충돌 없이 사용
-  Bar,                      // 실제 막대 하나를 그리는 컴포넌트
-  XAxis,                    // 가로축
-  YAxis,                    // 세로축
-  CartesianGrid,            // 배경 격자선
-  Tooltip,                  // 마우스 올렸을 때 값 말풍선
-  Legend,                   // 범례 (어떤 색이 뭔지)
-  ResponsiveContainer,      // 부모 크기에 맞게 차트를 자동으로 늘리고 줄임
+  BarChart as RechartsBar,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
   LabelList,
   ReferenceLine,
 } from 'recharts';
 import { gridToObjects, numericValue } from '../utils';
+
+import './BarChart.css';
 
 const CHART_THEMES = {
   orange: {
@@ -66,11 +58,11 @@ export default function BarChart({ headers, rows, chartConfig }) {
   const theme = CHART_THEMES[chartConfig.theme] || CHART_THEMES.orange;
 
   const rawData = gridToObjects(headers, rows)
-    .map(row => ({
+    .map((row) => ({
       ...row,
       [yKey]: numericValue(row[yKey]),
     }))
-    .filter(row => row[xKey] !== undefined && row[xKey] !== '' && !Number.isNaN(row[yKey]));
+    .filter((row) => row[xKey] !== undefined && row[xKey] !== '' && !Number.isNaN(row[yKey]));
 
   const data = [...rawData].sort((a, b) => {
     if (chartConfig.sortOrder === 'asc') {
@@ -89,23 +81,23 @@ export default function BarChart({ headers, rows, chartConfig }) {
       ? data.reduce((sum, row) => sum + row[yKey], 0) / data.length
       : 0;
 
+  const hasTitle = Boolean(chartConfig.title);
+
   return (
-    <div style={{ width: '100%', height: '100%' }}>
-      {chartConfig.title && (
+    <div className="bar-chart">
+      {hasTitle && (
         <h3
-          style={{
-            margin: '0 0 12px',
-            textAlign: 'center',
-            fontSize: '1.1rem',
-            fontWeight: 700,
-            color: theme.text,
-          }}
+          className="bar-chart__title"
+          style={{ color: theme.text }}
         >
           {chartConfig.title}
         </h3>
       )}
 
-      <ResponsiveContainer width="100%" height={chartConfig.title ? '90%' : '100%'}>
+      <ResponsiveContainer
+        width="100%"
+        height={hasTitle ? '90%' : '100%'}
+      >
         <RechartsBar
           data={data}
           margin={{ top: 28, right: 28, left: 16, bottom: 8 }}
