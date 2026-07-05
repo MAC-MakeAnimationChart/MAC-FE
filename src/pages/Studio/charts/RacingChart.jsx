@@ -60,12 +60,6 @@ export default function RacingChart({ headers, rows, chartConfig }) {
   }, [headers, rows, yKeys]);
 
   useEffect(() => {
-    if (frameIdx > frames.length - 1) {
-      setFrameIdx(Math.max(frames.length - 1, 0));
-    }
-  }, [frameIdx, frames.length]);
-
-  useEffect(() => {
     if (!playing || frames.length <= 1) {
       clearInterval(intervalRef.current);
       return;
@@ -85,9 +79,10 @@ export default function RacingChart({ headers, rows, chartConfig }) {
     return () => clearInterval(intervalRef.current);
   }, [playing, frames.length]);
 
-  const currentFrame = frames[frameIdx] ?? [];
+  const safeFrameIdx = Math.min(frameIdx, Math.max(frames.length - 1, 0));
+  const currentFrame = frames[safeFrameIdx] ?? [];
   const xKeyIndex = headers.indexOf(xKey);
-  const frameLabel = rows[frameIdx]?.[xKeyIndex] ?? '';
+  const frameLabel = rows[safeFrameIdx]?.[xKeyIndex] ?? '';
 
   const hasPlayableData = frames.length > 0 && currentFrame.length > 0;
 

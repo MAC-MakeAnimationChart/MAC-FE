@@ -1,5 +1,3 @@
-import React from 'react';
-
 function MyProjectItem({ id, title, updatedAt, type, previewImg }) {
     return (
         <div style={{ border: '1px solid #ddd', padding: '15px', marginBottom: '10px', borderRadius: '8px' }}>

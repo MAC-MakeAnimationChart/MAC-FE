@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './WorkspaceHeader.css';
 
 const WorkspaceHeader = () => {

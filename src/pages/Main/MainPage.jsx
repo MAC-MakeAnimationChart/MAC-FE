@@ -1,58 +1,135 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { dataSourcesApi } from '../../api';
 import './MainPage.css';
 
+const DEFAULT_PROJECT_ID = 1;
+const MAX_UPLOAD_SIZE = 20 * 1024 * 1024;
+const ALLOWED_FILE_EXTENSIONS = ['.csv', '.xlsx', '.xls'];
+
+function isAllowedFile(file) {
+  const lowerName = file.name.toLowerCase();
+  return ALLOWED_FILE_EXTENSIONS.some((extension) => lowerName.endsWith(extension));
+}
+
 export default function MainPage() {
-    return (
-        <div className="mn-container">
-            {/* ================= 글로벌 상단 네비게이션 헤더 ================= */}
-            <header className="mn-header">
-                <div className="mn-header-left">
-                    <Link to="/" className="mn-logo">MAC</Link>
-                    <span className="mn-badge">Beta</span>
-                </div>
-                <nav className="mn-nav">
-                    <Link to="/studio" className="mn-nav-item">차트 스튜디오</Link>
-                    <Link to="/login" className="mn-btn-login">로그인</Link>
-                    <Link to="/signup" className="mn-btn-signup">시작하기</Link>
-                </nav>
-            </header>
+  const fileInputRef = useRef(null);
+  const navigate = useNavigate();
+  const [uploadStatus, setUploadStatus] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
 
-            {/* ================= 메인 히어로 섹션 ================= */}
-            <main className="mn-hero-section">
-                <div className="mn-hero-content">
-                    <h1 className="mn-main-title">
-                        데이터 시각화의 새로운 표준, <span className="mn-text-gradient">MAC</span>
-                    </h1>
-                    <p className="mn-subtitle">
-                        비전공자도 3초 만에 만드는 프로페셔널 차트. 데이터를 업로드하고 정제부터 시각화, AI 인사이트 도출까지 한 번에 끝내세요.
-                    </p>
-                </div>
+  async function uploadFile(file) {
+    if (!file) return;
 
-                {/* ================= 핵심 파일 드롭존 영역 ================= */}
-                <section className="mn-upload-wrap">
-                    {/* 상호작용: 클릭 시 파일 탐색기 트리거 / 드래그 앤 드롭 이벤트 바인딩 구역 */}
-                    <div className="mn-dropzone" onClick={/* 파일 선택창 오픈 함수 링크 */ () => { }}>
-                        <div className="mn-icon-cloud">⚡</div>
-                        <h3 className="mn-dropzone-title">Excel 또는 CSV 파일을 여기에 드래그하세요</h3>
-                        <p className="mn-dropzone-desc">또는 컴퓨터에서 파일 선택</p>
-                        <span className="mn-file-spec">지원 형식: .xlsx, .xls, .csv (최대 20MB)</span>
-                    </div>
+    if (!isAllowedFile(file)) {
+      setUploadStatus('CSV 또는 Excel 파일만 업로드할 수 있습니다.');
+      return;
+    }
 
-                    <div className="mn-or-divider">
-                        <span className="mn-line"></span>
-                        <span className="mn-or-text">또는</span>
-                        <span className="mn-line"></span>
-                    </div>
+    if (file.size > MAX_UPLOAD_SIZE) {
+      setUploadStatus('20MB 이하 파일만 업로드할 수 있습니다.');
+      return;
+    }
 
-                    {/* 상호작용: 클릭 시 샘플 데이터를 적재하고 /studio 워크스페이스로 강제 이동 */}
-                    <div className="mn-sample-box">
-                        <button className="mn-btn-sample" onClick={/* 샘플 데이터 로드 및 이동 기능 주석 */ () => { }}>
-                            💡 샘플 데이터로 3초 만에 체험하기
-                        </button>
-                    </div>
-                </section>
-            </main>
+    setIsUploading(true);
+    setUploadStatus('파일을 업로드하는 중입니다.');
+
+    try {
+      const source = await dataSourcesApi.createDataSource({
+        projectId: DEFAULT_PROJECT_ID,
+        sourceType: 'UPLOAD',
+        file,
+      });
+
+      setUploadStatus(`${source?.fileName || file.name} 업로드가 완료되었습니다.`);
+      navigate('/studio');
+    } catch (error) {
+      setUploadStatus(error.message || '업로드에 실패했습니다.');
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
+  function handleDrop(event) {
+    event.preventDefault();
+    uploadFile(event.dataTransfer.files?.[0]);
+  }
+
+  function handleSampleClick() {
+    navigate('/studio');
+  }
+
+  return (
+    <div className="mn-container">
+      <header className="mn-header">
+        <div className="mn-header-left">
+          <Link to="/" className="mn-logo">MAC</Link>
+          <span className="mn-badge">Beta</span>
         </div>
-    );
+        <nav className="mn-nav">
+          <Link to="/studio" className="mn-nav-item">차트 스튜디오</Link>
+          <Link to="/pricing" className="mn-nav-item">요금제</Link>
+          <Link to="/login" className="mn-btn-login">로그인</Link>
+          <Link to="/signup" className="mn-btn-signup">시작하기</Link>
+        </nav>
+      </header>
+
+      <main className="mn-hero-section">
+        <div className="mn-hero-content">
+          <h1 className="mn-main-title">
+            데이터 시각화의 새로운 시작, <span className="mn-text-gradient">MAC</span>
+          </h1>
+          <p className="mn-subtitle">
+            Excel 또는 CSV 파일을 업로드하고 차트 옵션을 서버에 저장해 워크스페이스에서 다시 이어갈 수 있습니다.
+          </p>
+        </div>
+
+        <section className="mn-upload-wrap">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".csv,.xlsx,.xls"
+            className="mn-file-input"
+            onChange={(event) => uploadFile(event.target.files?.[0])}
+          />
+          <div
+            className="mn-dropzone"
+            role="button"
+            tabIndex={0}
+            onClick={() => fileInputRef.current?.click()}
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={handleDrop}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                fileInputRef.current?.click();
+              }
+            }}
+          >
+            <div className="mn-icon-cloud">+</div>
+            <h3 className="mn-dropzone-title">Excel 또는 CSV 파일을 여기에 드래그하세요</h3>
+            <p className="mn-dropzone-desc">또는 컴퓨터에서 파일 선택</p>
+            <span className="mn-file-spec">지원 형식: .xlsx, .xls, .csv</span>
+          </div>
+
+          {uploadStatus && (
+            <p className={`mn-upload-status${isUploading ? ' mn-upload-status--loading' : ''}`}>
+              {uploadStatus}
+            </p>
+          )}
+
+          <div className="mn-or-divider">
+            <span className="mn-line"></span>
+            <span className="mn-or-text">또는</span>
+            <span className="mn-line"></span>
+          </div>
+
+          <div className="mn-sample-box">
+            <button className="mn-btn-sample" type="button" onClick={handleSampleClick}>
+              샘플 데이터로 바로 체험하기
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
 }
