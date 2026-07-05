@@ -43,29 +43,36 @@ export function updateChartOption(projectId, option) {
   });
 }
 
-export function buildChartOptionPayload({ chartType, chartConfig }) {
+export function buildChartOptionPayload({ chartType, chartConfig, sourceId }) {
   const yAxis = Array.isArray(chartConfig.yKey) ? chartConfig.yKey : [chartConfig.yKey].filter(Boolean);
+  const styleOption = {
+    title: chartConfig.title || '',
+    width: Number(chartConfig.width || 900),
+    height: Number(chartConfig.height || 520),
+    legend: {
+      visible: chartConfig.legendVisible ?? true,
+      position: chartConfig.legendPosition || 'right',
+    },
+    colors: chartConfig.colors || ['#FF6B35', '#4F46E5'],
+    theme: chartConfig.theme,
+    sortOrder: chartConfig.sortOrder || 'none',
+    showAverageLine: Boolean(chartConfig.showAverageLine),
+  };
+
+  if (sourceId) {
+    styleOption.dataSource = {
+      sourceId,
+    };
+  }
 
   return {
     chartType: CHART_TYPE_BY_UI_KEY[chartType] || chartType,
     dataMapping: {
       xAxis: chartConfig.xKey,
       yAxis,
-      groupBy: chartConfig.groupBy || undefined,
+      groupBy: chartConfig.groupBy || null,
     },
-    styleOption: {
-      title: chartConfig.title || '',
-      width: Number(chartConfig.width || 900),
-      height: Number(chartConfig.height || 520),
-      legend: {
-        visible: chartConfig.legendVisible ?? true,
-        position: chartConfig.legendPosition || 'right',
-      },
-      colors: chartConfig.colors || ['#FF6B35', '#4F46E5'],
-      theme: chartConfig.theme,
-      sortOrder: chartConfig.sortOrder || 'none',
-      showAverageLine: Boolean(chartConfig.showAverageLine),
-    },
+    styleOption,
   };
 }
 
@@ -91,6 +98,7 @@ export function normalizeChartOptionResponse(option) {
       colors: styleOption.colors,
       sortOrder: styleOption.sortOrder || 'none',
       showAverageLine: Boolean(styleOption.showAverageLine),
+      sourceId: styleOption.dataSource?.sourceId,
     },
   };
 }

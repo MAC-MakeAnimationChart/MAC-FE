@@ -1,9 +1,7 @@
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { dataSourcesApi } from '../../api';
 import './MainPage.css';
 
-const DEFAULT_PROJECT_ID = 1;
 const MAX_UPLOAD_SIZE = 20 * 1024 * 1024;
 const ALLOWED_FILE_EXTENSIONS = ['.csv', '.xlsx', '.xls'];
 
@@ -12,51 +10,64 @@ function isAllowedFile(file) {
   return ALLOWED_FILE_EXTENSIONS.some((extension) => lowerName.endsWith(extension));
 }
 
+function formatFileSize(size) {
+  if (size < 1024 * 1024) {
+    return `${Math.max(1, Math.round(size / 1024))}KB`;
+  }
+
+  return `${(size / 1024 / 1024).toFixed(1)}MB`;
+}
+
 export default function MainPage() {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const [uploadStatus, setUploadStatus] = useState('');
-  const [isUploading, setIsUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [status, setStatus] = useState('');
 
-  async function uploadFile(file) {
+  function selectFile(file) {
     if (!file) return;
 
     if (!isAllowedFile(file)) {
-      setUploadStatus('CSV 또는 Excel 파일만 업로드할 수 있습니다.');
+      setSelectedFile(null);
+      setStatus('CSV 또는 Excel 파일만 선택할 수 있습니다.');
       return;
     }
 
     if (file.size > MAX_UPLOAD_SIZE) {
-      setUploadStatus('20MB 이하 파일만 업로드할 수 있습니다.');
+      setSelectedFile(null);
+      setStatus('20MB 이하 파일만 선택할 수 있습니다.');
       return;
     }
 
-    setIsUploading(true);
-    setUploadStatus('파일을 업로드하는 중입니다.');
+    setSelectedFile(file);
+    setStatus('파일이 선택되었습니다. Studio에서 데이터를 확인하고 차트 옵션을 저장할 때 서버에 저장됩니다.');
+  }
 
-    try {
-      const source = await dataSourcesApi.createDataSource({
-        projectId: DEFAULT_PROJECT_ID,
-        sourceType: 'UPLOAD',
-        file,
-      });
+  function clearSelectedFile() {
+    setSelectedFile(null);
+    setStatus('');
 
-      setUploadStatus(`${source?.fileName || file.name} 업로드가 완료되었습니다.`);
-      navigate('/studio');
-    } catch (error) {
-      setUploadStatus(error.message || '업로드에 실패했습니다.');
-    } finally {
-      setIsUploading(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
+  }
+
+  function openStudioWithFile() {
+    if (!selectedFile) {
+      setStatus('먼저 확인할 파일을 선택하세요.');
+      return;
+    }
+
+    navigate('/studio', {
+      state: {
+        pendingFile: selectedFile,
+      },
+    });
   }
 
   function handleDrop(event) {
     event.preventDefault();
-    uploadFile(event.dataTransfer.files?.[0]);
-  }
-
-  function handleSampleClick() {
-    navigate('/studio');
+    selectFile(event.dataTransfer.files?.[0]);
   }
 
   return (
@@ -80,7 +91,7 @@ export default function MainPage() {
             데이터 시각화의 새로운 시작, <span className="mn-text-gradient">MAC</span>
           </h1>
           <p className="mn-subtitle">
-            Excel 또는 CSV 파일을 업로드하고 차트 옵션을 서버에 저장해 워크스페이스에서 다시 이어갈 수 있습니다.
+            파일은 먼저 로컬에서 확인합니다. 서버 저장은 Studio에서 차트 옵션 저장을 누를 때 함께 진행됩니다.
           </p>
         </div>
 
@@ -90,8 +101,9 @@ export default function MainPage() {
             type="file"
             accept=".csv,.xlsx,.xls"
             className="mn-file-input"
-            onChange={(event) => uploadFile(event.target.files?.[0])}
+            onChange={(event) => selectFile(event.target.files?.[0])}
           />
+
           <div
             className="mn-dropzone"
             role="button"
@@ -107,15 +119,28 @@ export default function MainPage() {
           >
             <div className="mn-icon-cloud">+</div>
             <h3 className="mn-dropzone-title">Excel 또는 CSV 파일을 여기에 드래그하세요</h3>
-            <p className="mn-dropzone-desc">또는 컴퓨터에서 파일 선택</p>
-            <span className="mn-file-spec">지원 형식: .xlsx, .xls, .csv</span>
+            <p className="mn-dropzone-desc">선택만으로는 서버에 저장되지 않습니다.</p>
+            <span className="mn-file-spec">지원 형식: .xlsx, .xls, .csv (최대 20MB)</span>
           </div>
 
-          {uploadStatus && (
-            <p className={`mn-upload-status${isUploading ? ' mn-upload-status--loading' : ''}`}>
-              {uploadStatus}
-            </p>
+          {selectedFile && (
+            <div className="mn-selected-file">
+              <div>
+                <strong>{selectedFile.name}</strong>
+                <span>{formatFileSize(selectedFile.size)}</span>
+              </div>
+              <div className="mn-selected-file__actions">
+                <button type="button" className="mn-btn-secondary" onClick={clearSelectedFile}>
+                  다시 선택
+                </button>
+                <button type="button" className="mn-btn-confirm" onClick={openStudioWithFile}>
+                  Studio에서 확인
+                </button>
+              </div>
+            </div>
           )}
+
+          {status && <p className="mn-upload-status">{status}</p>}
 
           <div className="mn-or-divider">
             <span className="mn-line"></span>
@@ -124,7 +149,7 @@ export default function MainPage() {
           </div>
 
           <div className="mn-sample-box">
-            <button className="mn-btn-sample" type="button" onClick={handleSampleClick}>
+            <button className="mn-btn-sample" type="button" onClick={() => navigate('/studio')}>
               샘플 데이터로 바로 체험하기
             </button>
           </div>
