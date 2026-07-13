@@ -1,4 +1,4 @@
-.sidebar {
+.workspace-sidebar {
   width: 260px;
   height: 100vh;
   background-color: #ffffff;
@@ -9,7 +9,7 @@
   box-sizing: border-box;
 }
 
-.sidebar__logo {
+.workspace-sidebar__logo {
   font-size: 24px;
   font-weight: 800;
   color: var(--color-dark);
@@ -17,11 +17,11 @@
   letter-spacing: -0.5px;
 }
 
-.sidebar__nav {
+.workspace-sidebar__nav {
   flex: 1;
 }
 
-.sidebar__section-title {
+.workspace-sidebar__section-title {
   font-size: 12px;
   font-weight: 700;
   color: var(--color-muted);
@@ -29,13 +29,13 @@
   letter-spacing: 0.5px;
 }
 
-.sidebar__menu-list {
+.workspace-sidebar__menu-list {
   list-style: none;
   padding: 0;
   margin: 0 0 32px 0;
 }
 
-.sidebar__menu-item {
+.workspace-sidebar__menu-item {
   display: flex;
   align-items: center;
   padding: 12px 16px;
@@ -48,35 +48,34 @@
   transition: all 0.2s ease;
 }
 
-.sidebar__menu-item:hover {
+.workspace-sidebar .workspace-sidebar__menu-item:hover {
   background-color: var(--color-surface);
 }
 
-/* 피그마와 동일한 보라색 하이라이트 배경 강제 적용 */
-.sidebar__menu-item--active {
+.workspace-sidebar__menu-item--active {
   background-color: #4F46E5 !important;
   color: #ffffff !important;
 }
 
-.sidebar__menu-icon {
+.workspace-sidebar__menu-icon {
   margin-right: 12px;
   font-size: 18px;
 }
 
-.sidebar__profile {
+.workspace-sidebar__profile {
   background-color: var(--color-surface);
   border-radius: 12px;
   padding: 16px;
   border: 1px solid var(--color-border);
 }
 
-.sidebar__profile-info {
+.workspace-sidebar__profile-info {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
 }
 
-.sidebar__avatar {
+.workspace-sidebar__avatar {
   width: 40px;
   height: 40px;
   background-color: #4F46E5;
@@ -90,23 +89,23 @@
   margin-right: 12px;
 }
 
-.sidebar__user-details {
+.workspace-sidebar__user-details {
   display: flex;
   flex-direction: column;
 }
 
-.sidebar__username {
+.workspace-sidebar__username {
   font-size: 14px;
   font-weight: 700;
   color: var(--color-dark);
 }
 
-.sidebar__plan {
+.workspace-sidebar__plan {
   font-size: 12px;
   color: var(--color-muted);
 }
 
-.sidebar__logout-button {
+.workspace-sidebar__logout-button {
   width: 100%;
   padding: 8px;
   background-color: #ffffff;
@@ -119,6 +118,6 @@
   transition: background-color 0.2s;
 }
 
-.sidebar__logout-button:hover {
+.workspace-sidebar__logout-button:hover {
   background-color: var(--color-surface);
 }

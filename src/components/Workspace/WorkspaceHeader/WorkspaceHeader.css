@@ -50,7 +50,6 @@
   background-color: #ffffff;
 }
 
-/* 사라졌던 우측 생성 버튼 스타일 강제 선언 */
 .workspace-header__create-button {
   display: flex !important;
   align-items: center;
