@@ -187,3 +187,92 @@
 .mn-btn-sample:hover {
     background-color: #3B31C4;
 }
+
+.mn-file-input {
+    display: none;
+}
+
+.mn-upload-status {
+    margin: 1rem 0 0;
+    padding: 0.75rem 1rem;
+    border: 1px solid #E2E8F0;
+    border-radius: 0.5rem;
+    background: #ffffff;
+    color: #334155;
+    font-weight: 700;
+    text-align: center;
+}
+
+.mn-upload-status--loading {
+    color: #4F46E5;
+}
+
+.mn-selected-file {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid #E2E8F0;
+    border-radius: 0.75rem;
+    background: #ffffff;
+}
+
+.mn-selected-file strong,
+.mn-selected-file span {
+    display: block;
+}
+
+.mn-selected-file strong {
+    color: #0F172A;
+    font-size: 0.95rem;
+}
+
+.mn-selected-file span {
+    margin-top: 0.25rem;
+    color: #64748B;
+    font-size: 0.85rem;
+}
+
+.mn-selected-file__actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.mn-btn-secondary,
+.mn-btn-confirm {
+    min-height: 40px;
+    padding: 0 0.9rem;
+    border-radius: 0.5rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.mn-btn-secondary {
+    background: #ffffff;
+    border: 1px solid #CBD5E1;
+    color: #334155;
+}
+
+.mn-btn-confirm {
+    background: #0F172A;
+    border: 1px solid #0F172A;
+    color: #ffffff;
+}
+
+.mn-btn-confirm:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+@media (max-width: 640px) {
+    .mn-selected-file {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .mn-selected-file__actions {
+        flex-direction: column;
+    }
+}

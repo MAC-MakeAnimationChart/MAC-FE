@@ -1,6 +1,5 @@
-import React from 'react';
-import EmptyState from "../EmptyState/EmptyState"; 
-import MyProjectItem from './MyProject/MyProjectItem'; 
+import EmptyState from "../EmptyState/EmptyState";
+import MyProjectItem from './MyProject/MyProjectItem';
 
 function MyProject() {
     const myProject = [
@@ -82,7 +81,7 @@ function MyProject() {
                 <EmptyState />
             ) : (
                 myProject.map((project) => (
-                    <MyProjectItem 
+                    <MyProjectItem
                         key={project.id}
                         id={project.id}
                         title={project.title}

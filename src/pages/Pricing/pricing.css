@@ -394,3 +394,138 @@
     grid-template-columns: 1fr;
   }
 }
+
+.pricing-page {
+  min-height: 100vh;
+  padding: 38px;
+  color: #0f172a;
+}
+
+.pricing-page__hero {
+  max-width: 760px;
+  margin-bottom: 28px;
+}
+
+.pricing-page__hero p {
+  margin: 0 0 10px;
+  color: #ff6b35;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.pricing-page__hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.05;
+}
+
+.pricing-page__hero span {
+  display: block;
+  color: #64748b;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.pricing-page__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pricing-plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 390px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+.pricing-plan--featured {
+  border-color: #ff6b35;
+}
+
+.pricing-plan__badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #fff1eb;
+  color: #c2410c;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.pricing-plan h2 {
+  margin: 0 0 18px;
+  font-size: 22px;
+}
+
+.pricing-plan__price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.pricing-plan__price strong {
+  font-size: 38px;
+}
+
+.pricing-plan__price span,
+.pricing-plan p {
+  color: #64748b;
+}
+
+.pricing-plan p {
+  min-height: 48px;
+  margin: 0 0 22px;
+  line-height: 1.5;
+}
+
+.pricing-plan ul {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.pricing-plan li {
+  color: #334155;
+  font-weight: 700;
+}
+
+.pricing-plan li::before {
+  content: "✓";
+  margin-right: 8px;
+  color: #16a34a;
+}
+
+.pricing-plan button {
+  margin-top: auto;
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (max-width: 960px) {
+  .pricing-page__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .pricing-page {
+    padding: 24px 16px;
+  }
+}
