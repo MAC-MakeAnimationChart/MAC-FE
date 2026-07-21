@@ -1,0 +1,531 @@
+/* ============================================
+   Pricing page
+   React: <PricingPage />
+   ============================================ */
+
+.pricing-hero {
+  padding: var(--space-8) 0 var(--space-6);
+  text-align: center;
+}
+
+.pricing-hero__title {
+  font-size: 48px;
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.02em;
+}
+
+.pricing-hero__subtitle {
+  font-size: 18px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}
+
+/* ============================================
+   Billing toggle
+   React: <BillingToggle value={...} onChange={...} />
+   ============================================ */
+.billing-toggle {
+  display: inline-flex;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.billing-toggle__btn {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  transition: background 0.15s, color 0.15s;
+}
+
+.billing-toggle__btn--active {
+  background: var(--color-bg);
+  color: var(--color-text);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.billing-toggle__badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+/* ============================================
+   Plan cards grid
+   React: <PlanGrid>{plans.map(p => <PlanCard {...p} />)}</PlanGrid>
+   ============================================ */
+.plans {
+  padding: var(--space-6) 0;
+}
+
+.plans__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  position: relative;
+}
+
+.plan-card--featured {
+  border: 2px solid var(--color-text);
+}
+
+.plan-card__badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 12px;
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.plan-card__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
+}
+
+.plan-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: var(--space-2);
+}
+
+.plan-card__price-amount {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.plan-card__price-period {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.plan-card__tagline {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+  min-height: 36px;
+}
+
+.plan-card__cta {
+  margin-bottom: var(--space-5);
+}
+
+.plan-card__features {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  font-size: 13px;
+}
+
+.plan-card__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.plan-card__feature-check {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+/* ============================================
+   Comparison table
+   React: <ComparisonTable rows={...} plans={...} />
+   ============================================ */
+.comparison {
+  padding: var(--space-9) 0;
+}
+
+.comparison__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.comparison__table th,
+.comparison__table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.comparison__table thead th {
+  position: sticky;
+  top: 64px;
+  background: var(--color-bg);
+  font-weight: 600;
+  font-size: 13px;
+  padding: var(--space-4);
+}
+
+.comparison__category {
+  font-weight: 600;
+  background: var(--color-bg-subtle);
+}
+
+.comparison__feature-name {
+  color: var(--color-text);
+}
+
+.comparison__value {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.comparison__value--check {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+/* ============================================
+   Payment info section (Korea-specific)
+   React: <PaymentInfo />
+   ============================================ */
+.payment-info {
+  padding: var(--space-8) 0;
+  background: var(--color-bg-subtle);
+}
+
+.payment-info__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+
+.info-card {
+  padding: var(--space-5);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.info-card__title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+.info-card__desc {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+
+.info-card__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.info-card__chip {
+  padding: 6px 12px;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* ============================================
+   Discount banner (education)
+   React: <DiscountBanner />
+   ============================================ */
+.discount-banner {
+  padding: var(--space-8) 0;
+}
+
+.discount-banner__inner {
+  padding: var(--space-6);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.discount-banner__text h3 {
+  font-size: 20px;
+  margin-bottom: var(--space-2);
+}
+
+.discount-banner__text p {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* ============================================
+   FAQ (reused on landing too)
+   React: <FAQList items={...} />
+   ============================================ */
+.faq {
+  padding: var(--space-9) 0;
+}
+
+.faq__list {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-item__question {
+  width: 100%;
+  padding: var(--space-5) 0;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  color: var(--color-text);
+}
+
+.faq-item__icon {
+  font-size: 20px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.faq-item__answer {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  padding: 0 0 var(--space-5);
+  line-height: 1.6;
+}
+
+/* ============================================
+   Final CTA (reused on landing too)
+   React: <FinalCTA />
+   ============================================ */
+.final-cta {
+  padding: var(--space-9) 0;
+  text-align: center;
+}
+
+.final-cta__title {
+  font-size: 36px;
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.02em;
+}
+
+.final-cta__subtitle {
+  font-size: 17px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.final-cta__actions {
+  display: inline-flex;
+  gap: var(--space-3);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 900px) {
+  .plans__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .payment-info__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .discount-banner__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .pricing-hero__title {
+    font-size: 32px;
+  }
+
+  .comparison {
+    overflow-x: auto;
+  }
+
+  .comparison__table {
+    min-width: 640px;
+  }
+}
+
+@media (max-width: 560px) {
+  .plans__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pricing-page {
+  min-height: 100vh;
+  padding: 38px;
+  color: #0f172a;
+}
+
+.pricing-page__hero {
+  max-width: 760px;
+  margin-bottom: 28px;
+}
+
+.pricing-page__hero p {
+  margin: 0 0 10px;
+  color: #ff6b35;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.pricing-page__hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.05;
+}
+
+.pricing-page__hero span {
+  display: block;
+  color: #64748b;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.pricing-page__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pricing-plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 390px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+.pricing-plan--featured {
+  border-color: #ff6b35;
+}
+
+.pricing-plan__badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #fff1eb;
+  color: #c2410c;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.pricing-plan h2 {
+  margin: 0 0 18px;
+  font-size: 22px;
+}
+
+.pricing-plan__price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.pricing-plan__price strong {
+  font-size: 38px;
+}
+
+.pricing-plan__price span,
+.pricing-plan p {
+  color: #64748b;
+}
+
+.pricing-plan p {
+  min-height: 48px;
+  margin: 0 0 22px;
+  line-height: 1.5;
+}
+
+.pricing-plan ul {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.pricing-plan li {
+  color: #334155;
+  font-weight: 700;
+}
+
+.pricing-plan li::before {
+  content: "✓";
+  margin-right: 8px;
+  color: #16a34a;
+}
+
+.pricing-plan button {
+  margin-top: auto;
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (max-width: 960px) {
+  .pricing-page__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .pricing-page {
+    padding: 24px 16px;
+  }
+}
