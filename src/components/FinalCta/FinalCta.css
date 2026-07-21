@@ -1,0 +1,49 @@
+/* ============================================
+   FinalCta
+   ============================================ */
+
+.final-cta {
+    padding: var(--space-9) 0;
+    text-align: center;
+}
+
+.final-cta__inner {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-5);
+}
+
+.final-cta__title {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+.final-cta__subtitle {
+    font-size: 17px;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+}
+
+.final-cta__actions {
+    display: inline-flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media (max-width: 900px) {
+    .final-cta__title {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 560px) {
+    .final-cta__inner {
+        padding: 0 var(--space-4);
+    }
+}

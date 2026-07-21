@@ -1,0 +1,65 @@
+/* ============================================
+   SiteHeader
+   ============================================ */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.site-header__inner {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-5);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-header__logo {
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: #FF6B35;
+    text-decoration: none;
+    letter-spacing: -0.03em;
+}
+
+.site-header__nav {
+    display: flex;
+    gap: var(--space-6);
+}
+
+.site-header__nav-link {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.site-header__nav-link:hover {
+    color: var(--color-text);
+}
+
+.site-header__actions {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .site-header__nav {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .site-header__inner {
+        padding: 0 var(--space-4);
+    }
+}

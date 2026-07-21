@@ -1,0 +1,84 @@
+/* ============================================
+   Button (.mac-button)
+   지침 3번에서 'button'을 금지 이름으로 명시하여
+   프로덕트 접두사 'mac-'을 붙임.
+   ============================================ */
+
+.mac-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.mac-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* --- Primary: 진한 인디고 --- */
+.mac-button--primary {
+    background-color: #4F46E5;
+    color: #ffffff;
+}
+
+.mac-button--primary:hover:not(:disabled) {
+    background: #1E293B;
+}
+
+/* --- Secondary: 흰 배경 + 테두리 --- */
+.mac-button--secondary {
+    background: var(--color-bg);
+    color: var(--color-text);
+    border-color: var(--color-border);
+}
+
+.mac-button--secondary:hover:not(:disabled) {
+    background: var(--color-bg-subtle);
+    border-color: var(--color-border-strong);
+}
+
+/* --- Ghost: 배경 없음 --- */
+.mac-button--ghost {
+    background: transparent;
+    color: var(--color-text);
+}
+
+.mac-button--ghost:hover:not(:disabled) {
+    background: var(--color-bg-subtle);
+}
+
+/* --- Brand: 흰 배경 → 호버 시 오렌지 (템플릿 카드용) --- */
+.mac-button--brand {
+    background: var(--color-bg-subtle);
+    color: var(--color-text);
+    border-color: var(--color-border);
+}
+
+.mac-button--brand:hover:not(:disabled) {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* --- Size --- */
+.mac-button--lg {
+    padding: 14px 24px;
+    font-size: 15px;
+}
+
+/* --- Block --- */
+.mac-button--block {
+    width: 100%;
+}

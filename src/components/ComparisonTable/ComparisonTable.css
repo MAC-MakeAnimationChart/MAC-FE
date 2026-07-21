@@ -1,0 +1,82 @@
+/* ============================================
+   ComparisonTable
+   ============================================ */
+
+.comparison-table {
+    padding: var(--space-9) 0;
+}
+
+.comparison-table__inner {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-5);
+}
+
+.comparison-table__wrapper {
+    overflow-x: auto;
+}
+
+.comparison-table__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.comparison-table__head {
+    padding: var(--space-4);
+    text-align: left;
+    background: var(--color-bg);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 64px;
+}
+
+.comparison-table__head-blank {
+    padding: var(--space-4);
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 64px;
+}
+
+.comparison-table__table td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.comparison-table__category {
+    font-weight: 600;
+    background: var(--color-bg-subtle);
+    color: var(--color-text);
+}
+
+.comparison-table__feature-name {
+    color: var(--color-text);
+}
+
+.comparison-table__value {
+    text-align: center;
+    color: var(--color-text-muted);
+}
+
+.comparison-table__value--check {
+    color: var(--color-success);
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .comparison-table__table {
+        min-width: 640px;
+    }
+}
+
+@media (max-width: 560px) {
+    .comparison-table__inner {
+        padding: 0 var(--space-4);
+    }
+}

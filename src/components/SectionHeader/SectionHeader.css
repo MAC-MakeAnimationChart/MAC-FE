@@ -1,0 +1,41 @@
+/* ============================================
+   SectionHeader — 각 섹션 상단 헤더
+   ============================================ */
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-7);
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-header__eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-3);
+}
+
+.section-header__title {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+.section-header__subtitle {
+    font-size: 17px;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .section-header__title {
+        font-size: 28px;
+    }
+}

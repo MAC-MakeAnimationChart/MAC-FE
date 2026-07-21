@@ -1,0 +1,36 @@
+/* ============================================
+   PlanGrid
+   ============================================ */
+
+.plan-grid {
+    padding: var(--space-6) 0;
+}
+
+.plan-grid__inner {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-5);
+}
+
+.plan-grid__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+}
+
+@media (max-width: 900px) {
+    .plan-grid__list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .plan-grid__inner {
+        padding: 0 var(--space-4);
+    }
+
+    .plan-grid__list {
+        grid-template-columns: 1fr;
+    }
+}

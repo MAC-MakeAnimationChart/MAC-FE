@@ -1,0 +1,40 @@
+/* ============================================
+   AgreementList
+   ============================================ */
+
+.agreement-list {
+    display: grid;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+    padding: var(--space-4);
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+}
+
+.agreement-list__checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: 13px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.agreement-list__checkbox input[type="checkbox"] {
+    margin-top: 2px;
+}
+
+.agreement-list__checkbox--all {
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-1);
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.agreement-list__error {
+    font-size: 12px;
+    color: #e53e3e;
+    margin-top: var(--space-2);
+}

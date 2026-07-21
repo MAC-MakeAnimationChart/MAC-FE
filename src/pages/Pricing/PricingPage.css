@@ -1,0 +1,54 @@
+/* ============================================
+   PricingPage — 페이지 레이아웃 + hero
+   ============================================ */
+
+.pricing-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-page__main {
+    flex: 1;
+}
+
+/* ---- Hero ---- */
+.pricing-page__hero {
+    padding: var(--space-8) 0 var(--space-6);
+    text-align: center;
+}
+
+.pricing-page__hero-inner {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-5);
+}
+
+.pricing-page__hero-title {
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+}
+
+.pricing-page__hero-subtitle {
+    font-size: 18px;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .pricing-page__hero-title {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 560px) {
+    .pricing-page__hero-inner {
+        padding: 0 var(--space-4);
+    }
+}

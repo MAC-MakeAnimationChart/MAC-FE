@@ -1,0 +1,25 @@
+/* ============================================
+   FaqList
+   ============================================ */
+
+.faq-list {
+    padding: var(--space-9) 0;
+}
+
+.faq-list__inner {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-5);
+}
+
+.faq-list__items {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+@media (max-width: 560px) {
+    .faq-list__inner {
+        padding: 0 var(--space-4);
+    }
+}
