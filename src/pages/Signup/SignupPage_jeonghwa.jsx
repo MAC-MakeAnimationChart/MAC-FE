@@ -1,10 +1,10 @@
-import '../styles/auth.css'
-import { SiteHeader, Button } from '../components/common'
+import '../Login/auth.css'
+// import { SiteHeader, Button } from '../components/common'
 
 export default function SignupPage() {
   return (
     <div className="auth-page">
-      <SiteHeader />
+      {/* <SiteHeader /> */}
 
       <div className="auth-main container">
         {/* SignupForm */}
@@ -84,7 +84,7 @@ export default function SignupPage() {
             </div>
 
             {/* 구조 전환 단계: to="/chart"로 이동 (실제 인증 로직은 추후 추가) */}
-            <Button
+            {/* <Button
               variant="primary"
               size="lg"
               block
@@ -92,7 +92,7 @@ export default function SignupPage() {
               className="auth-form__submit"
             >
               계정 만들기
-            </Button>
+            </Button> */}
             <p className="auth-form__hint">가입 시 인증 메일이 발송됩니다</p>
           </form>
 

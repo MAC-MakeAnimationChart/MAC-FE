@@ -1,0 +1,12 @@
+.workspace-my-project {
+  padding: 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.workspace-my-project__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+  width: 100%;
+}

@@ -1,6 +1,6 @@
 import './WorkspaceHeader.css';
 
-const WorkspaceHeader = () => {
+export default function WorkspaceHeader() {
   return (
     <header className="workspace-header">
       {/* 화면 타이틀 */}
@@ -22,6 +22,4 @@ const WorkspaceHeader = () => {
       </div>
     </header>
   );
-};
-
-export default WorkspaceHeader;
+}
