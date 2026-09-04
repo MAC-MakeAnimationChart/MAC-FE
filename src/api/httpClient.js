@@ -1,6 +1,7 @@
 import { API_BASE_URL } from './config';
 
 const REQUEST_TIMEOUT_MS = 15000;
+const ACCESS_TOKEN_STORAGE_KEY = 'mac.accessToken';
 
 export class ApiError extends Error {
   constructor(message, { status, code, details } = {}) {
@@ -10,6 +11,32 @@ export class ApiError extends Error {
     this.code = code;
     this.details = details;
   }
+}
+
+export function getAccessToken() {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function setAccessToken(token) {
+  if (typeof window === 'undefined') return;
+  try {
+    if (token) {
+      window.localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token);
+    } else {
+      window.localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
+    }
+  } catch {
+    /* ignore quota / privacy errors */
+  }
+}
+
+export function clearAccessToken() {
+  setAccessToken(null);
 }
 
 function joinUrl(path) {
@@ -47,6 +74,8 @@ export async function apiRequest(path, options = {}) {
     headers,
     unwrap = true,
     signal,
+    auth = true,
+    withCredentials = true,
     ...rest
   } = options;
 
@@ -58,6 +87,13 @@ export async function apiRequest(path, options = {}) {
   }
 
   requestHeaders.set('Accept', 'application/json');
+
+  if (auth) {
+    const token = getAccessToken();
+    if (token && !requestHeaders.has('Authorization')) {
+      requestHeaders.set('Authorization', `Bearer ${token}`);
+    }
+  }
 
   const controller = new AbortController();
   const timeoutId = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -73,7 +109,7 @@ export async function apiRequest(path, options = {}) {
       method,
       headers: requestHeaders,
       body: body === undefined || isFormData ? body : JSON.stringify(body),
-      credentials: 'omit',
+      credentials: withCredentials ? 'include' : 'omit',
       mode: 'cors',
       signal: controller.signal,
       ...rest,
@@ -98,5 +134,5 @@ export async function apiRequest(path, options = {}) {
     });
   }
 
-  return unwrap ? payload?.data : payload;
+  return unwrap ? payload?.data ?? payload : payload;
 }
