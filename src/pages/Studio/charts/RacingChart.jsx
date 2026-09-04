@@ -1,16 +1,10 @@
 /**
  * 레이싱 막대 차트 (Bar Race Chart)
- * - Flourish의 Bar Race처럼 시간 흐름에 따라 막대가 경쟁하듯 순위가 바뀌는 차트
- * - 각 row가 하나의 "프레임(시간 한 칸)"이고, 재생 버튼을 누르면 1초마다 다음 프레임으로 이동
- * - X축 열 = 시간 레이블(연도/날짜 등), 나머지 열 = 각 항목의 수치
- *
- * 예시 데이터:
- *   연도 | 한국 | 미국 | 일본
- *   2020 |  100 |  300 |  200   ← 1번 프레임
- *   2021 |  150 |  280 |  210   ← 2번 프레임
- *   2022 |  200 |  260 |  220   ← 3번 프레임
+ * - 시간 흐름에 따라 막대 순위가 바뀌는 차트
+ * - 각 row가 하나의 프레임이고, 재생 버튼을 누르면 1초마다 다음 프레임으로 이동
+ * - X축 열 = 시간 레이블, 나머지 열 = 각 항목의 수치
  */
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   BarChart,
   Bar,
@@ -19,84 +13,171 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Cell, // 막대 하나하나에 개별 색상을 줄 때 사용
+  Cell,
+  LabelList,
 } from 'recharts';
+
 import { gridToObjects, numericValue } from '../utils';
+
 import './bar.css';
 
 const COLORS = ['#FF6B35', '#4F86C6', '#54C97B', '#F7C948', '#C47FFF', '#F97171'];
 
+function formatNumber(value) {
+  if (value === null || value === undefined || value === '') return '';
+
+  const number = Number(value);
+
+  if (Number.isNaN(number)) return value;
+
+  return number.toLocaleString('ko-KR');
+}
+
 export default function RacingChart({ headers, rows, chartConfig }) {
-  const [frameIdx, setFrameIdx] = useState(0);   // 현재 보여줄 프레임 번호 (0 = 첫 번째 row)
-  const [playing, setPlaying] = useState(false);  // 재생 중이면 true
-  const intervalRef = useRef(null);               // setInterval ID 저장 (cleanup용)
+  const [frameIdx, setFrameIdx] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const intervalRef = useRef(null);
 
-  // X축 열 제외한 나머지 열이 각 "항목(선수)"
-  const yKeys = headers.filter(h => h !== chartConfig.xKey);
+  const xKey = chartConfig.xKey || headers[0];
 
-  // rows 전체를 프레임 배열로 변환
-  // 각 프레임 = 항목별 { name, value } 배열, 값 큰 순으로 정렬 → 순위 반영
-  const frames = rows.map(row => {
-    const obj = gridToObjects([...headers], [row])[0];
-    return yKeys
-      .map(k => ({ name: k, value: numericValue(obj[k]) }))
-      .sort((a, b) => b.value - a.value);
-  });
+  const yKeys = useMemo(
+    () => headers.filter((header) => header !== xKey),
+    [headers, xKey]
+  );
 
-  // playing이 true가 되면 1초마다 frameIdx를 1씩 증가
+  const frames = useMemo(() => {
+    return rows.map((row) => {
+      const rowObject = gridToObjects(headers, [row])[0] || {};
+
+      return yKeys
+        .map((key) => ({
+          name: key,
+          value: numericValue(rowObject[key]),
+        }))
+        .filter((item) => !Number.isNaN(item.value))
+        .sort((a, b) => b.value - a.value);
+    });
+  }, [headers, rows, yKeys]);
+
   useEffect(() => {
-    if (playing) {
-      intervalRef.current = setInterval(() => {
-        setFrameIdx(prev => {
-          if (prev >= frames.length - 1) {
-            setPlaying(false); // 마지막 프레임 도달 시 자동 정지
-            return prev;
-          }
-          return prev + 1;
-        });
-      }, 1000);
+    if (!playing || frames.length <= 1) {
+      clearInterval(intervalRef.current);
+      return;
     }
-    // 컴포넌트 사라지거나 playing 상태 바뀔 때 인터벌 반드시 제거 (메모리 누수 방지)
+
+    intervalRef.current = setInterval(() => {
+      setFrameIdx((prev) => {
+        if (prev >= frames.length - 1) {
+          setPlaying(false);
+          return prev;
+        }
+
+        return prev + 1;
+      });
+    }, 1000);
+
     return () => clearInterval(intervalRef.current);
   }, [playing, frames.length]);
 
-  const currentFrame = frames[frameIdx] ?? [];
-  // 현재 프레임의 X축 레이블 (연도, 날짜 등)
-  const frameLabel = rows[frameIdx]?.[headers.indexOf(chartConfig.xKey)] ?? '';
+  const safeFrameIdx = Math.min(frameIdx, Math.max(frames.length - 1, 0));
+  const currentFrame = frames[safeFrameIdx] ?? [];
+  const xKeyIndex = headers.indexOf(xKey);
+  const frameLabel = rows[safeFrameIdx]?.[xKeyIndex] ?? '';
+
+  const hasPlayableData = frames.length > 0 && currentFrame.length > 0;
 
   return (
     <div className="jay-racing-wrapper">
-      {/* layout="vertical": 막대를 가로 방향으로 눕힘 (레이싱 스타일) */}
       <div className="jay-racing-chart">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart layout="vertical" data={currentFrame} margin={{ top: 5, right: 50, left: 80, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="number" />
-            <YAxis type="category" dataKey="name" width={75} />
-            <Tooltip />
-            <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-              {/* Cell로 각 막대에 색상 개별 지정 */}
-              {currentFrame.map((_, i) => (
-                <Cell key={i} fill={COLORS[i % COLORS.length]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        {hasPlayableData ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              layout="vertical"
+              data={currentFrame}
+              margin={{ top: 8, right: 72, left: 80, bottom: 8 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+
+              <XAxis
+                type="number"
+                tickFormatter={formatNumber}
+              />
+
+              <YAxis
+                type="category"
+                dataKey="name"
+                width={75}
+              />
+
+              <Tooltip
+                formatter={(value) => [formatNumber(value), '값']}
+              />
+
+              <Bar
+                dataKey="value"
+                radius={[0, 8, 8, 0]}
+                animationDuration={500}
+              >
+                {currentFrame.map((_, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                ))}
+
+                <LabelList
+                  dataKey="value"
+                  position="right"
+                  formatter={formatNumber}
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                  }}
+                />
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <div className="jay-racing-empty">
+            레이싱 차트로 표시할 수 있는 수치 데이터가 없습니다.
+          </div>
+        )}
       </div>
 
-      {/* 현재 프레임 레이블 표시 (연도 등) */}
-      <div className="jay-racing-label">{frameLabel}</div>
+      <div className="jay-racing-label">
+        {frameLabel || '프레임 데이터 없음'}
+      </div>
 
-      {/* 재생/일시정지/처음/끝 컨트롤 */}
       <div className="jay-racing-controls">
-        <button className="jay-racing-btn" onClick={() => { setFrameIdx(0); setPlaying(false); }}>⏮ 처음</button>
         <button
+          type="button"
+          className="jay-racing-btn"
+          onClick={() => {
+            setFrameIdx(0);
+            setPlaying(false);
+          }}
+          disabled={!hasPlayableData}
+        >
+          ⏮ 처음
+        </button>
+
+        <button
+          type="button"
           className={`jay-racing-btn ${playing ? 'active' : ''}`}
-          onClick={() => setPlaying(p => !p)}
+          onClick={() => setPlaying((prev) => !prev)}
+          disabled={!hasPlayableData || frames.length <= 1}
         >
           {playing ? '⏸ 일시정지' : '▶ 재생'}
         </button>
-        <button className="jay-racing-btn" onClick={() => { setFrameIdx(frames.length - 1); setPlaying(false); }}>끝 ⏭</button>
+
+        <button
+          type="button"
+          className="jay-racing-btn"
+          onClick={() => {
+            setFrameIdx(Math.max(frames.length - 1, 0));
+            setPlaying(false);
+          }}
+          disabled={!hasPlayableData}
+        >
+          끝 ⏭
+        </button>
       </div>
     </div>
   );

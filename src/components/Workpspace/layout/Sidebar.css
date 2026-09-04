@@ -1,0 +1,126 @@
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background-color: #ffffff;
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.sidebar__logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-dark);
+  margin-bottom: 40px;
+  letter-spacing: -0.5px;
+}
+
+.sidebar__nav {
+  flex: 1;
+}
+
+.sidebar__section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-muted);
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.sidebar__menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+}
+
+.sidebar__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #64748B;
+  cursor: pointer;
+  margin-bottom: 3px;
+  transition: all 0.18s ease;
+}
+
+.sidebar__menu-item:hover {
+  background-color: #F8FAFC;
+  color: #0F172A;
+}
+
+/* 피그마와 동일한 보라색 하이라이트 배경 강제 적용 */
+.sidebar__menu-item--active {
+  background-color: #4F46E5 !important;
+  color: #ffffff !important;
+}
+
+.sidebar__menu-icon {
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.sidebar__profile {
+  background-color: var(--color-surface);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+}
+
+.sidebar__profile-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sidebar__avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #4F46E5;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 12px;
+}
+
+.sidebar__user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__username {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.sidebar__plan {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.sidebar__logout-button {
+  width: 100%;
+  padding: 8px;
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-dark);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar__logout-button:hover {
+  background-color: var(--color-surface);
+}
